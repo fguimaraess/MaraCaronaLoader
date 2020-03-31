@@ -14,7 +14,7 @@ namespace CrawlerGE
     class Program
     {
         private static readonly string _connectionString = @"Server=ec2-35-174-88-65.compute-1.amazonaws.com;Port=5432;" +
-                    "User Id=odwvjyxqhzgabw;Password=ef7d9e8b0476a76423666b960558df83f905c75c2ca3e2321b7b52d96f9a63b9;Database=d85ko4e25vi0j6";
+                    "User Id=odwvjyxqhzgabw;Password=ef7d9e8b0476a76423666b960558df83f905c75c2ca3e2321b7b52d96f9a63b9;Database=d85ko4e25vi0j6;SSL Mode=Require;Trust Server Certificate=true";
         static void Main(string[] args)
         {
             CargaAsync();
@@ -26,7 +26,7 @@ namespace CrawlerGE
             {
                 var partida = new PartidaDto();
 
-                using (var conn = new NpgsqlConnection(_connectionString))
+                using (NpgsqlConnection conn = new NpgsqlConnection(_connectionString))
                 {
                     conn.Open();
                     var cmd = new NpgsqlCommand(@"CREATE TABLE PARTIDA (
@@ -35,16 +35,16 @@ namespace CrawlerGE
                                                     Team_Away_Id int NOT NULL,
                                                     Location VARCHAR,
                                                     Competition VARCHAR,
-                                                    Date DATETIME NOT NULL
+                                                    Date VARCHAR NOT NULL
                                                 );
                                                 CREATE TABLE CLUBE(
                                                     Id INT GENERATED ALWAYS AS IDENTITY,
                                                     Name int NOT NULL
-                                                ); ");
+                                                ); ", conn);
 
                     cmd.ExecuteNonQuery();
 
-                    MontaEstrutura(partida, conn);
+                    MontaEstrutura(partida, cmd);
                 }
             }
             catch (Exception e)
@@ -54,7 +54,7 @@ namespace CrawlerGE
             
         }
 
-        private static void MontaEstrutura(PartidaDto partida, NpgsqlConnection conn)
+        private static void MontaEstrutura(PartidaDto partida, NpgsqlCommand conn)
         {
             var partidas = JsonConvert.DeserializeObject<IEnumerable<PartidaDto>>(partida.seriea);
 

@@ -1,26 +1,24 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Projetos\\MaraCaronaLoader\\MaraCaronaLoader\\MaraCaronaLoader.csproj": {}
+    "C:\\Users\\Luiz Faitanin\\source\\repos\\MaraCaronaLoader\\MaraCaronaLoader\\MaraCaronaLoader.csproj": {}
   },
   "projects": {
-    "C:\\Projetos\\MaraCaronaLoader\\MaraCaronaLoader\\MaraCaronaLoader.csproj": {
+    "C:\\Users\\Luiz Faitanin\\source\\repos\\MaraCaronaLoader\\MaraCaronaLoader\\MaraCaronaLoader.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Projetos\\MaraCaronaLoader\\MaraCaronaLoader\\MaraCaronaLoader.csproj",
+        "projectUniqueName": "C:\\Users\\Luiz Faitanin\\source\\repos\\MaraCaronaLoader\\MaraCaronaLoader\\MaraCaronaLoader.csproj",
         "projectName": "MaraCaronaLoader",
-        "projectPath": "C:\\Projetos\\MaraCaronaLoader\\MaraCaronaLoader\\MaraCaronaLoader.csproj",
-        "packagesPath": "C:\\Users\\felip\\.nuget\\packages\\",
-        "outputPath": "C:\\Projetos\\MaraCaronaLoader\\MaraCaronaLoader\\obj\\",
+        "projectPath": "C:\\Users\\Luiz Faitanin\\source\\repos\\MaraCaronaLoader\\MaraCaronaLoader\\MaraCaronaLoader.csproj",
+        "packagesPath": "C:\\Users\\Luiz Faitanin\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\Luiz Faitanin\\source\\repos\\MaraCaronaLoader\\MaraCaronaLoader\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
-          "C:\\Microsoft\\Xamarin\\NuGet\\",
           "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
         ],
         "configFilePaths": [
-          "C:\\Users\\felip\\AppData\\Roaming\\NuGet\\NuGet.Config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Xamarin.Offline.config"
+          "C:\\Users\\Luiz Faitanin\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
           "netcoreapp2.1"
@@ -48,6 +46,7 @@
               "version": "[1.11.23, )"
             },
             "Microsoft.NETCore.App": {
+              "suppressParent": "All",
               "target": "Package",
               "version": "[2.1.0, )",
               "autoReferenced": true
@@ -62,10 +61,16 @@
             }
           },
           "imports": [
-            "net461"
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48"
           ],
           "assetTargetFallback": true,
-          "warn": true
+          "warn": true,
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.1.102\\RuntimeIdentifierGraph.json"
         }
       }
     }

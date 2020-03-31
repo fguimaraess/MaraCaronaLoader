@@ -9,3 +9,13 @@ C:\Projetos\MaraCaronaLoader\MaraCaronaLoader\obj\Debug\netcoreapp2.1\MaraCarona
 C:\Projetos\MaraCaronaLoader\MaraCaronaLoader\obj\Debug\netcoreapp2.1\MaraCaronaLoader.AssemblyInfo.cs
 C:\Projetos\MaraCaronaLoader\MaraCaronaLoader\obj\Debug\netcoreapp2.1\MaraCaronaLoader.dll
 C:\Projetos\MaraCaronaLoader\MaraCaronaLoader\obj\Debug\netcoreapp2.1\MaraCaronaLoader.pdb
+C:\Users\Luiz Faitanin\source\repos\MaraCaronaLoader\MaraCaronaLoader\bin\Debug\netcoreapp2.1\MaraCaronaLoader.deps.json
+C:\Users\Luiz Faitanin\source\repos\MaraCaronaLoader\MaraCaronaLoader\bin\Debug\netcoreapp2.1\MaraCaronaLoader.runtimeconfig.json
+C:\Users\Luiz Faitanin\source\repos\MaraCaronaLoader\MaraCaronaLoader\bin\Debug\netcoreapp2.1\MaraCaronaLoader.runtimeconfig.dev.json
+C:\Users\Luiz Faitanin\source\repos\MaraCaronaLoader\MaraCaronaLoader\bin\Debug\netcoreapp2.1\MaraCaronaLoader.dll
+C:\Users\Luiz Faitanin\source\repos\MaraCaronaLoader\MaraCaronaLoader\bin\Debug\netcoreapp2.1\MaraCaronaLoader.pdb
+C:\Users\Luiz Faitanin\source\repos\MaraCaronaLoader\MaraCaronaLoader\obj\Debug\netcoreapp2.1\MaraCaronaLoader.csprojAssemblyReference.cache
+C:\Users\Luiz Faitanin\source\repos\MaraCaronaLoader\MaraCaronaLoader\obj\Debug\netcoreapp2.1\MaraCaronaLoader.AssemblyInfoInputs.cache
+C:\Users\Luiz Faitanin\source\repos\MaraCaronaLoader\MaraCaronaLoader\obj\Debug\netcoreapp2.1\MaraCaronaLoader.AssemblyInfo.cs
+C:\Users\Luiz Faitanin\source\repos\MaraCaronaLoader\MaraCaronaLoader\obj\Debug\netcoreapp2.1\MaraCaronaLoader.dll
+C:\Users\Luiz Faitanin\source\repos\MaraCaronaLoader\MaraCaronaLoader\obj\Debug\netcoreapp2.1\MaraCaronaLoader.pdb
