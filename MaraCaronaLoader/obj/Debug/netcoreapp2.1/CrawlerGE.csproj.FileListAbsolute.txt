@@ -1,0 +1,11 @@
+C:\Projetos\CrawlerGE\CrawlerGE\bin\Debug\netcoreapp2.1\CrawlerGE.deps.json
+C:\Projetos\CrawlerGE\CrawlerGE\bin\Debug\netcoreapp2.1\CrawlerGE.runtimeconfig.json
+C:\Projetos\CrawlerGE\CrawlerGE\bin\Debug\netcoreapp2.1\CrawlerGE.runtimeconfig.dev.json
+C:\Projetos\CrawlerGE\CrawlerGE\bin\Debug\netcoreapp2.1\CrawlerGE.dll
+C:\Projetos\CrawlerGE\CrawlerGE\obj\Debug\netcoreapp2.1\CrawlerGE.csprojAssemblyReference.cache
+C:\Projetos\CrawlerGE\CrawlerGE\obj\Debug\netcoreapp2.1\CrawlerGE.csproj.CoreCompileInputs.cache
+C:\Projetos\CrawlerGE\CrawlerGE\obj\Debug\netcoreapp2.1\CrawlerGE.AssemblyInfoInputs.cache
+C:\Projetos\CrawlerGE\CrawlerGE\obj\Debug\netcoreapp2.1\CrawlerGE.AssemblyInfo.cs
+C:\Projetos\CrawlerGE\CrawlerGE\bin\Debug\netcoreapp2.1\CrawlerGE.pdb
+C:\Projetos\CrawlerGE\CrawlerGE\obj\Debug\netcoreapp2.1\CrawlerGE.dll
+C:\Projetos\CrawlerGE\CrawlerGE\obj\Debug\netcoreapp2.1\CrawlerGE.pdb

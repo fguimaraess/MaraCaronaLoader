@@ -1,0 +1,11 @@
+C:\Projetos\MaraCaronaLoader\MaraCaronaLoader\bin\Debug\netcoreapp2.1\MaraCaronaLoader.deps.json
+C:\Projetos\MaraCaronaLoader\MaraCaronaLoader\bin\Debug\netcoreapp2.1\MaraCaronaLoader.runtimeconfig.json
+C:\Projetos\MaraCaronaLoader\MaraCaronaLoader\bin\Debug\netcoreapp2.1\MaraCaronaLoader.runtimeconfig.dev.json
+C:\Projetos\MaraCaronaLoader\MaraCaronaLoader\bin\Debug\netcoreapp2.1\MaraCaronaLoader.dll
+C:\Projetos\MaraCaronaLoader\MaraCaronaLoader\bin\Debug\netcoreapp2.1\MaraCaronaLoader.pdb
+C:\Projetos\MaraCaronaLoader\MaraCaronaLoader\obj\Debug\netcoreapp2.1\MaraCaronaLoader.csprojAssemblyReference.cache
+C:\Projetos\MaraCaronaLoader\MaraCaronaLoader\obj\Debug\netcoreapp2.1\MaraCaronaLoader.csproj.CoreCompileInputs.cache
+C:\Projetos\MaraCaronaLoader\MaraCaronaLoader\obj\Debug\netcoreapp2.1\MaraCaronaLoader.AssemblyInfoInputs.cache
+C:\Projetos\MaraCaronaLoader\MaraCaronaLoader\obj\Debug\netcoreapp2.1\MaraCaronaLoader.AssemblyInfo.cs
+C:\Projetos\MaraCaronaLoader\MaraCaronaLoader\obj\Debug\netcoreapp2.1\MaraCaronaLoader.dll
+C:\Projetos\MaraCaronaLoader\MaraCaronaLoader\obj\Debug\netcoreapp2.1\MaraCaronaLoader.pdb
