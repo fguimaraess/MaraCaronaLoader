@@ -29,7 +29,7 @@ namespace CrawlerGE.Model
         public int Team_Home_Id { get; set; }
         public int Team_Away_Id { get; set; }
         public string Location { get; set; }
-        public string Competition { get; set; }
+        public int CompetitionId { get; set; }
     }
 
     public class CompetitionDto
