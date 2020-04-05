@@ -13,10 +13,12 @@ namespace CrawlerGE.Model
 
         public int Id { get; set; }
         public DateTime Date { get; set; }
+        public DateTime Time { get; set; }
         public string Home_Name { get; set; }
         public string Away_Name { get; set; }
         public int Team_Home_Id { get; set; }
         public int Team_Away_Id { get; set; }
+        public int Round { get; set; }
         public string Location { get; set; }
         public CompetitionDto Competition { get; set; }
     }
@@ -26,10 +28,12 @@ namespace CrawlerGE.Model
 
         public int Id { get; set; }
         public DateTime Date { get; set; }
+        public DateTime Time { get; set; }
         public int Team_Home_Id { get; set; }
         public int Team_Away_Id { get; set; }
         public string Location { get; set; }
         public int CompetitionId { get; set; }
+        public int FixtureRound { get; set; }
     }
 
     public class CompetitionDto

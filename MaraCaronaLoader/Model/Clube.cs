@@ -9,4 +9,10 @@ namespace CrawlerGE.Model
         public int Id { get; set; }
         public string Name { get; set; }
     }
+
+    public class Competition
+    {
+        public int Id { get; set; }
+        public string Name { get; set; }
+    }
 }
