@@ -1,15 +1,22 @@
 ﻿using CrawlerGE.Model;
 using Newtonsoft.Json;
 using Npgsql;
+using RestSharp;
 using System;
 using System.Collections.Generic;
+using System.Linq;
+using Dapper;
+using System.Threading.Tasks;
+using MaraCaronaLoader.Model;
+using NpgsqlTypes;
 
 namespace CrawlerGE
 {
     class Program
     {
-        private static readonly string _connectionString = @"Server=ec2-35-174-88-65.compute-1.amazonaws.com;Port=5432;" +
-                    "User Id=odwvjyxqhzgabw;Password=ef7d9e8b0476a76423666b960558df83f905c75c2ca3e2321b7b52d96f9a63b9;Database=d85ko4e25vi0j6";
+        private static readonly string _connectionString = @"Server=ec2-35-174-88-65.compute-1.amazonaws.com;Port=5432;
+                    User Id=odwvjyxqhzgabw;Password=ef7d9e8b0476a76423666b960558df83f905c75c2ca3e2321b7b52d96f9a63b9;Database=d85ko4e25vi0j6;
+                    SSL Mode=Require;Trust Server Certificate=true";
         static void Main(string[] args)
         {
             CargaAsync();
@@ -23,52 +30,49 @@ namespace CrawlerGE
             try
             {
 
-                int page = 1;
-                List<string> resposta = new List<string>();
+                //int page = 1;
+                //List<string> resposta = new List<string>();
 
-                while (page <= 13)
-                {
-                    string baseUrl = "https://live-score-api.com/api-client/fixtures/matches.json?&key=jxKfM3GpOje11Jbl&secret=gW6tfW4qP72wTiycQirDm72argcsZnOg&competition_id=24&page=" + page;
-                    var client = new RestClient(baseUrl);
-                    var request = new RestRequest(Method.GET);
+                //while (page <= 13)
+                //{
+                //    string baseUrl = "https://live-score-api.com/api-client/fixtures/matches.json?&key=jxKfM3GpOje11Jbl&secret=gW6tfW4qP72wTiycQirDm72argcsZnOg&competition_id=24&page=" + page;
+                //    var client = new RestClient(baseUrl);
+                //    var request = new RestRequest(Method.GET);
 
-                    IRestResponse response = client.Execute(request);
-                    resposta.Add(response.Content);
-                    page++;
-                }
-                resposta.ForEach(model =>
-                {
-                    using (NpgsqlConnection conn = new NpgsqlConnection(_connectionString))
-                    {
-                        conn.Open();
-                        var cmd = new NpgsqlCommand($"INSERT INTO CLUBE (Name) VALUES ({clube})");
-                    }
+                //    IRestResponse response = client.Execute(request);
+                //    resposta.Add(response.Content);
+                //    page++;
+                //}
+                //resposta.ForEach(model =>
+                //{
+                //    using (NpgsqlConnection conn = new NpgsqlConnection(_connectionString))
+                //    {
+                //        conn.Open();
+                //        var cmd = new NpgsqlCommand(@"INSERT INTO temploader (Model) VALUES (@p)", conn);
+                //        cmd.Parameters.Add(new NpgsqlParameter("p", NpgsqlDbType.Jsonb) { Value = model });
+                //        cmd.ExecuteNonQuery();
+                //    }
 
-                })
-                var partida = new PartidaDto();
+                //});
+
+
 
                 using (NpgsqlConnection conn = new NpgsqlConnection(_connectionString))
                 {
+                    var someValue = new RootObject();
                     conn.Open();
-                    var cmd = new NpgsqlCommand(@"CREATE TABLE PARTIDA (
-                                                    Id INT GENERATED ALWAYS AS IDENTITY,
-                                                    username VARCHAR NOT NULL,
-                                                    password VARCHAR NOT NULL,
-                                                    email VARCHAR,
-                                                    Competition VARCHAR,
-                                                    Date VARCHAR NOT NULL
-                                                );
-                                                CREATE TABLE CLUBE(
-                                                    Id INT GENERATED ALWAYS AS IDENTITY,
-                                                    Name int NOT NULL
-                                                ); ", conn);
+                    var cmd = new NpgsqlCommand(@"SELECT model FROM temploader", conn);
+                    var reader = cmd.ExecuteReader();
+                    List<RootObject> fixtureList = new List<RootObject>();
+                    while (reader.Read())
+                    {
+                        someValue = reader.GetFieldValue<RootObject>(0);
+                        fixtureList.Add(someValue);
+                    }
+                    reader.Close();
+                    cmd.Dispose();
+                    MontaEstrutura(fixtureList, conn);
 
-                    var partida = new PartidaDto();
-                    var partidas = JsonConvert.DeserializeObject<IEnumerable<PartidaDto>>(partida.seriea);
-                    MontaEstrutura(partidas, dbConnection);
-
-                    partidas = JsonConvert.DeserializeObject<IEnumerable<PartidaDto>>(partida.serieb);
-                    MontaEstrutura(partidas, dbConnection);
                 }
             }
             catch (Exception e)
@@ -106,96 +110,91 @@ namespace CrawlerGE
             cmd.ExecuteNonQuery();
         }
 
-        private static void MontaEstrutura(IEnumerable<PartidaDto> partidas, NpgsqlConnection dbConnection)
+        private static void MontaEstrutura(List<RootObject> fixtureList, NpgsqlConnection conn)
         {
             //Criar lógica pra ver se já existe
-            var competitions = partidas.GroupBy(x => x.Competition.Name);
-            competitions.ToList().ForEach(c =>
+            foreach (var item in fixtureList)
             {
-                var cmd = new NpgsqlCommand($"INSERT INTO Competition (Name) VALUES ('{c.Key}')", dbConnection);
-                cmd.ExecuteNonQuery();
-            });
-
-            var clubesHome = partidas.GroupBy(x => x.Home_Name);
-            var clubesAway = partidas.GroupBy(x => x.Away_Name);
-
-            var clubesString = clubesHome.Union(clubesAway).Select(x => x.Key).Distinct();
-            List<string> insertClube = new List<string>();
-            clubesString.ToList().ForEach(clube =>
-            {
-                var cmd = new NpgsqlCommand($"INSERT INTO Club (Name) VALUES ('{clube}')", dbConnection);
-                cmd.ExecuteNonQuery();
-            });
-
-
-            var clubes = GetInsertedClubs(dbConnection);
-            var competitionsInserted = GetInsertedCompetitions(dbConnection);
-
-            List<Partida> listaDePartidas = new List<Partida>();
-            partidas.AsParallel().ForAll(p =>
-            {
-                listaDePartidas.Add(new Partida
+                var fixtures = item.data.fixtures;
+                var competitions = fixtures.GroupBy(x => x.competition.name);
+                competitions.ToList().ForEach(c =>
                 {
-                    CompetitionId = GetCompetitionByName(p.Competition.Name, competitionsInserted).Id,
-                    Date = p.Date.Date.Add(p.Time.TimeOfDay),
-                    Location = p.Location,
-                    Team_Away_Id = GetTeamByName(p.Away_Name, clubes).Id,
-                    Team_Home_Id = GetTeamByName(p.Home_Name, clubes).Id,
-                    FixtureRound = p.Round
+                    var exists = conn.QueryFirstOrDefault<bool>("SELECT 1 from Competition WHERE name = @key", new { key = c.Key });
+                    if (!exists)
+                    {
+                        var cmd = new NpgsqlCommand($"INSERT INTO Competition (Name) VALUES ('{c.Key}')", conn);
+                        cmd.ExecuteNonQuery();
+                    }
                 });
-            });
 
-            listaDePartidas.ForEach(p =>
-            {
-                var cmd = new NpgsqlCommand($@"SET datestyle = dmy;  INSERT INTO Fixture (TeamHomeId, TeamAwayId, Location, CompetitionId, FixtureRound, Date) 
-                                            VALUES ({p.Team_Home_Id}, {p.Team_Away_Id}, '{p.Location}', {p.CompetitionId}, {p.FixtureRound}, '{p.Date}')", dbConnection);
-                cmd.ExecuteNonQuery();
-            });
-        }
+                var clubesHome = fixtures.GroupBy(x => x.home_name);
+                var clubesAway = fixtures.GroupBy(x => x.away_name);
 
-        private static List<Competition> GetInsertedCompetitions(NpgsqlConnection dbConnection)
-        {
-            var cmd = new NpgsqlCommand(@"SELECT * FROM Competition", dbConnection);
-            var reader = cmd.ExecuteReader();
-
-            var competitions = new List<Competition>();
-            while (reader.Read())
-            {
-                competitions.Add(new Competition
+                var clubesString = clubesHome.Union(clubesAway).Select(x => x.Key).Distinct();
+                List<string> insertClube = new List<string>();
+                clubesString.ToList().ForEach(clube =>
                 {
-                    Id = Convert.ToInt32(reader["Id"]),
-                    Name = reader["Name"].ToString()
+                    var exists = conn.QueryFirstOrDefault<bool>("SELECT 1 from Club WHERE name = @key", new { key = clube });
+                    if (!exists)
+                    {
+                        var cmd = new NpgsqlCommand($"INSERT INTO Club (Name) VALUES ('{clube}')", conn);
+                        cmd.ExecuteNonQuery();
+                    }
+
+                });
+
+
+                var clubes = GetInsertedClubs(conn);
+                var competitionsInserted = GetInsertedCompetitions(conn);
+
+                List<Partida> listaDePartidas = new List<Partida>();
+                fixtures.AsParallel().ForAll(p =>
+                {
+                    listaDePartidas.Add(new Partida
+                    {
+                        CompetitionId = GetCompetitionByName(p.competition.name, competitionsInserted).Id,
+                        Date = Convert.ToDateTime(p.date).Date.Add(Convert.ToDateTime(p.time).TimeOfDay),
+                        Location = p.location,
+                        Team_Away_Id = GetTeamByName(p.away_name, clubes).Id,
+                        Team_Home_Id = GetTeamByName(p.home_name, clubes).Id,
+                        FixtureRound = Convert.ToInt32(p.round)
+                    });
+                });
+
+                listaDePartidas.ForEach(p =>
+                {
+                    var parametros = new { homeId = p.Team_Home_Id, awayId = p.Team_Away_Id, competition = p.CompetitionId, round = p.FixtureRound };
+                    string sql = @"SELECT 1 from Fixture 
+                                    WHERE TeamHomeId = @homeId and TeamAwayId = @awayId and 
+                                    CompetitionId = @competition and FixtureRound = @round";
+                    var exists = conn.QueryFirstOrDefault<bool>(sql, parametros);
+                    if (!exists)
+                    {
+                        var cmd = new NpgsqlCommand($@"SET datestyle = dmy;  INSERT INTO Fixture (TeamHomeId, TeamAwayId, Location, CompetitionId, FixtureRound, Date) 
+                                            VALUES ({p.Team_Home_Id}, {p.Team_Away_Id}, '{p.Location}', {p.CompetitionId}, {p.FixtureRound}, '{p.Date}')", conn);
+                        cmd.ExecuteNonQuery();
+                    }
                 });
             }
 
-            reader.Close();
-
-            return competitions;
         }
 
-        private static Competition GetCompetitionByName(string name, List<Competition> competitionsInserted)
+        private static List<Model.Competition> GetInsertedCompetitions(NpgsqlConnection dbConnection)
+        {
+
+            return dbConnection.Query<Model.Competition>("SELECT * FROM Competition").AsList();
+
+        }
+
+        private static Model.Competition GetCompetitionByName(string name, List<Model.Competition> competitionsInserted)
         {
             return competitionsInserted?.FirstOrDefault(x => x.Name == name);
         }
 
         private static List<Clube> GetInsertedClubs(NpgsqlConnection dbConnection)
         {
-            var cmd = new NpgsqlCommand(@"SELECT * FROM Club", dbConnection);
-            var reader = cmd.ExecuteReader();
 
-            var clubes = new List<Clube>();
-            while (reader.Read())
-            {
-                clubes.Add(new Clube
-                {
-                    Id = Convert.ToInt32(reader["Id"]),
-                    Name = reader["Name"].ToString()
-                });
-            }
-
-            reader.Close();
-
-            return clubes;
+            return dbConnection.Query<Clube>("SELECT * FROM Club").AsList();
         }
 
         private static Clube GetTeamByName(string name, List<Clube> clubes)

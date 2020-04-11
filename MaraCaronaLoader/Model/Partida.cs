@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace CrawlerGE.Model
 {
@@ -22,7 +23,6 @@ namespace CrawlerGE.Model
         public string Location { get; set; }
         public CompetitionDto Competition { get; set; }
     }
-
     public class Partida
     {
 
